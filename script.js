@@ -1,7 +1,5 @@
 $(document).ready(function() {
-  var weather = {};
   getGeoLocation();
-  console.log(weather)
 
   function getGeoLocation() {
     if(navigator.geolocation) {
@@ -14,7 +12,7 @@ $(document).ready(function() {
   function getWeather(location){
     let url = "https://fcc-weather-api.glitch.me/api/current?lon=" +
           location.coords.longitude + "&lat=" +
-          location.coords.latitude
+          location.coords.latitude;
     $.ajax({
       url: url,
       jsonp: "json",
@@ -24,10 +22,10 @@ $(document).ready(function() {
     .fail(handleError)
 
     function parseJSON(JSON) {
-      let weatherPic = JSON.weather[0].icon
-      let locationName = JSON.name
+      let weatherPic = JSON.weather[0].icon;
+      let locationName = JSON.name;
       let weather = JSON.weather[0].main
-      displayWeather(weatherPic, locationName, weather)
+      displayWeather(weatherPic, locationName, weather);
     }
 
     function handleError(jqxhr, textStatus, err) {
@@ -36,9 +34,11 @@ $(document).ready(function() {
   }//get Weather
 
   function displayWeather(weatherPic,locationName,weather){
-    $("#intro-header")
+    $("#intro-header").text(locationName);
+    $("#current-weather").text(weather);
+    $("#weather-picture").attr('src', weatherPic);
     console.log(weatherPic,locationName,weather)
-  }
+  }//displayWeather
 
 })
 
