@@ -21,11 +21,15 @@ $(document).ready(function() {
     .done(parseJSON)
     .fail(handleError)
 
+    console.log(url)
+
     function parseJSON(JSON) {
+      //turn into object
       let weatherPic = JSON.weather[0].icon;
       let locationName = JSON.name;
       let weather = JSON.weather[0].main
-      displayWeather(weatherPic, locationName, weather);
+      let tempC = JSON.main.temp
+      displayWeather(weatherPic, locationName, weather,tempC);
     }
 
     function handleError(jqxhr, textStatus, err) {
@@ -33,11 +37,12 @@ $(document).ready(function() {
     }//handleError
   }//get Weather
 
-  function displayWeather(weatherPic,locationName,weather){
+  function displayWeather(weatherPic,locationName,weather,tempC){
+    let temp
     $("#intro-header").text(locationName);
     $("#current-weather").text(weather);
     $("#weather-picture").attr('src', weatherPic);
-    console.log(weatherPic,locationName,weather)
+    console.log(weatherPic,locationName,weather,tempC)
   }//displayWeather
 
 })
@@ -45,7 +50,7 @@ $(document).ready(function() {
 
 
 
-
+// "base":"stations", "main":{ "temp":22.59, "pressure":1027.45,
 
 
 
@@ -91,4 +96,7 @@ $(document).ready(function() {
 //     x.innerHTML = "Latitude: " + position.coords.latitude +
 //     "<br>Longitude: " + position.coords.longitude;
 // }
-// </script>
+// </script>]
+
+
+
