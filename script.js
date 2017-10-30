@@ -4,10 +4,9 @@ $(document).ready(function() {
   let measure = 'celsius';
 
   if(navigator.geolocation) {
-      dispalyStatus("Gathering Weather Data")
-      navigator.geolocation.getCurrentPosition(getWeather)
+    navigator.geolocation.getCurrentPosition(getWeather);
   } else {
-    dispalyStatus("Geolocation is not being supported on this browser");
+    displayStatus('Geolocation is not being supported on this browser');
   }
 
 
@@ -27,14 +26,14 @@ $(document).ready(function() {
 
 
   function getWeather(location){
-    console.log('getting weather')
-    let url = "https://fcc-weather-api.glitch.me/api/current?lon=" +
-          location.coords.longitude + "&lat=" +
+    displayStatus('Gathering Weather Data');
+    let url = 'https://fcc-weather-api.glitch.me/api/current?lon=' +
+          location.coords.longitude + '&lat=' +
           location.coords.latitude;
     $.ajax({
       url: url,
-      jsonp: "json",
-      dataType: "json"
+      jsonp: 'json',
+      dataType: 'json'
     })
     .done(parseJSON)
     .fail(handleError)
@@ -43,33 +42,35 @@ $(document).ready(function() {
       weather.location = JSON.name;
       weather.icon = JSON.weather[0].icon;
       weather.condition = JSON.weather[0].main;
-      weather.celsius = Math.round(JSON.main.temp).toString() + " °C";
+      weather.celsius = Math.round(JSON.main.temp).toString() + ' °C';
       weather.fahrenheit = Math.round((JSON.main.temp * 1.8) + 32)
-                            .toString() + " °F";
+                            .toString() + ' °F';
       displayWeather();
     }
 
     function handleError(jqxhr, textStatus, err) {
-      console.log("Request Failed: " + textStatus + ", " + err);
+      console.log('Request Failed: ' + textStatus + ', ' + err);
     }//handleError
   }//get Weather
 
   function displayWeather(){
     console.log(weather)
     console.log(measure, weather.celsius, weather.fahrenheit )
-    $("#intro-header").text(weather.location);
-    $("#current-condition").text(weather.condition);
-    $("#weather-picture").attr('src', weather.icon);
-    if (measure == "celsius") {
-      $("#current-temp").text(weather.celsius)
+    $('#intro-header').text(weather.location);
+    $('#current-condition').text(weather.condition);
+    $('#weather-picture').attr('src', weather.icon);
+    if (measure == 'celsius') {
+      $('#current-temp').text(weather.celsius)
     } else {
-      $("#current-temp").text(weather.fahrenheit)
+      $('#current-temp').text(weather.fahrenheit)
     }
-    $(".weather-display").show();
+    $('.weather-display').show();
+    displayStatus('Complete')
   }//displayWeather
 
   function displayStatus(message){
-
+    $('footer').show();
+    $('#status-message').text(message)
   }//displayStatus
 
 })//doc ready

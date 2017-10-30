@@ -57,6 +57,7 @@ img {
 
 
 footer {
+  display: none;
   margin-top: 20px;
   padding-left: 25px;
 }
