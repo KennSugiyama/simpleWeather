@@ -12,20 +12,20 @@
       <header>
         <h1>Simple Local Weather</h1>
           <div class="buttons">
-            <button class="btn disabled">Celsius</button>
-            <button class="btn">Fahrenheit</button>
+            <button id="celsius" class="btn btn-selected">Celsius</button>
+            <button id="fahrenheit" class="btn">Fahrenheit</button>
           </div>
       </header>
       <main>
-        <h2 id="intro-header">San Francisco</h2>
+        <h2 id="intro-header"></h2>
         <div class="weather-display">
-          <h3 id="current-weather">Mist</h3>
-          <img id="weather-picture" src="https://cdn.glitch.com/6e8889e5-7a72-48f0-a061-863548450de5%2F50n.png?1499366021876" alt="Weather Icon">
-          <h3 id="weather-temp">55°C</h3>
+          <h3 id="current-weather">Getting Data...</h3>
+          <img id="weather-picture" src="" alt="weather icon">
+          <h3 id="weather-temp"></h3>
         </div>
       </main>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!-- <script src="./script.js"></script> -->
+    <script src="./script.js"></script>
   </body>
 </html>
