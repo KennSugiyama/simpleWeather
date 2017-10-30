@@ -1,15 +1,30 @@
+//create status / error
 $(document).ready(function() {
-  getGeoLocation();
+  let weather = {};
+  let measure = 'celsius';
 
-  function getGeoLocation() {
-    if(navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(getWeather);
-    } else {
-      console.log("Geolocation is not being supported on this browser");
-    }
+  if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(getWeather)
+  } else {
+    console.log("Geolocation is not being supported on this browser");
   }
 
+
+  $('#celsius').on('click',function(){
+    measure = 'celsius';
+    $('#fahrenheit').attr('class', 'btn')
+    $('#celsius').attr('class', 'btn btn-selected');
+  })
+
+    $('#fahrenheit').on('click',function(){
+    measure = 'fahrenheit';
+    $('#celsius').attr('class', 'btn');
+    $('#fahrenheit').attr('class', 'btn btn-selected');
+  })
+
+
   function getWeather(location){
+    console.log('getting weather')
     let url = "https://fcc-weather-api.glitch.me/api/current?lon=" +
           location.coords.longitude + "&lat=" +
           location.coords.latitude;
@@ -21,15 +36,13 @@ $(document).ready(function() {
     .done(parseJSON)
     .fail(handleError)
 
-    console.log(url)
-
     function parseJSON(JSON) {
-      //turn into object
-      let weatherPic = JSON.weather[0].icon;
-      let locationName = JSON.name;
-      let weather = JSON.weather[0].main
-      let tempC = JSON.main.temp
-      displayWeather(weatherPic, locationName, weather,tempC);
+      weather.location = JSON.name;
+      weather.icon = JSON.weather[0].icon;
+      weather.condition = JSON.weather[0].main;
+      weather.celsius = Math.round(JSON.main.temp).toString() + " °C";
+      weather.fahrenheit = Math.round((weather.celsius * 1.8) + 32).toString() + " °F";
+      displayWeather();
     }
 
     function handleError(jqxhr, textStatus, err) {
@@ -37,66 +50,18 @@ $(document).ready(function() {
     }//handleError
   }//get Weather
 
-  function displayWeather(weatherPic,locationName,weather,tempC){
-    let temp
-    $("#intro-header").text(locationName);
-    $("#current-weather").text(weather);
-    $("#weather-picture").attr('src', weatherPic);
-    console.log(weatherPic,locationName,weather,tempC)
+  function displayWeather(){
+    console.log(weather)
+    console.log(measure, weather.celsius, weather.fahrenheit )
+    $("#intro-header").text(weather.location);
+    $("#current-condition").text(weather.condition);
+    $("#weather-picture").attr('src', weather.icon);
+    if (measure == "celsius") {
+      $("#current-temp").text(weather.celsius)
+    } else {
+      $("#current-temp").text(weather.fahrenheit)
+    }
+    $(".weather-display").show();
   }//displayWeather
 
-})
-
-
-
-
-// "base":"stations", "main":{ "temp":22.59, "pressure":1027.45,
-
-
-
- // let getQuote = function(){
- //    $.ajax({
- //        url: "https://api.forismatic.com/api/1.0/",
- //        jsonp: "jsonp",
- //        dataType: "jsonp",
- //        data: {
- //          method: "getQuote",
- //          lang: "en",
- //          format: "jsonp"
- //        }
- //      })
- //      .done(parseJSON)
- //      .fail(handleError);
-
- //    function parseJSON(JSON) {
- //      let quoteText = JSON.quoteText;
- //      let author = "- "
- //      author += JSON.quoteAuthor;
- //      displayQuote(quoteText, author);
- //    }
-
- //    function handleError(jqxhr, textStatus, err) {
- //      console.log("Request Failed: " + textStatus + ", " + err);
- //    }
- //  }// getQuote
-
-
-
-
-// <script>
-// var x = document.getElementById("demo");
-// function getLocation() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(showPosition);
-//     } else {
-//         x.innerHTML = "Geolocation is not supported by this browser.";
-//     }
-// }
-// function showPosition(position) {
-//     x.innerHTML = "Latitude: " + position.coords.latitude +
-//     "<br>Longitude: " + position.coords.longitude;
-// }
-// </script>]
-
-
-
+})//doc ready
